@@ -6,12 +6,6 @@ import numpy as np
 
 from scipy.stats import gaussian_kde
 
-# ==============================
-
-# 1. BACA DATA
-
-# ==============================
-
 file_path = "Jawaban Survei - Form Responses 1.csv"
 
 data = pd.read_csv(file_path)
@@ -28,12 +22,6 @@ data["IPK_Rentang"] = data[col_ipk].str.strip()
 
 urutan_ipk = ["2.50-2.99", "3.00-3.50", ">3.50"]
 
-# ==============================
-
-# 2. TABEL KONTINGENSI
-
-# ==============================
-
 tabel_kontingensi = pd.crosstab(
 
     data["Status"],
@@ -45,12 +33,6 @@ tabel_kontingensi = pd.crosstab(
 print("\n=== TABEL KONTINGENSI ===")
 
 print(tabel_kontingensi)
-
-# ==============================
-
-# 3. BAR CHART
-
-# ==============================
 
 aktif = tabel_kontingensi.loc["Aktif"].values
 
@@ -81,12 +63,6 @@ plt.grid(axis="y", alpha=0.3)
 plt.tight_layout()
 
 plt.show()
-
-# ==============================
-
-# 4. SCATTER PLOT (KATEGORIK)
-
-# ==============================
 
 ipk_map = {
 
@@ -131,13 +107,6 @@ plt.grid(alpha=0.3)
 plt.tight_layout()
 
 plt.show()
-
-# ==============================
-
-# 5. HISTOGRAM FREKUENSI
-
-# ==============================
-
 frekuensi_ipk = (
 
     data["IPK_Rentang"]
@@ -162,12 +131,6 @@ x_mid = np.array([nilai_ipk[k] for k in frekuensi_ipk.index])
 
 f = frekuensi_ipk.values
 
-# ==============================
-
-# 6. STATISTIK DATA BERKELOMPOK
-
-# ==============================
-
 mean_ipk = np.sum(f * x_mid) / np.sum(f)
 
 kumulatif = np.cumsum(f)
@@ -182,19 +145,11 @@ modus_class = frekuensi_ipk.idxmax()
 
 modus_ipk = nilai_ipk[modus_class]
 
-# posisi kategori (UNTUK PLOT)
-
 mean_pos = np.interp(mean_ipk, x_mid, np.arange(len(x_mid)))
 
 median_pos = urutan_ipk.index(median_class)
 
 modus_pos = urutan_ipk.index(modus_class)
-
-# ==============================
-
-# 7. HISTOGRAM + GARIS STATISTIK
-
-# ==============================
 
 plt.figure(figsize=(9,6))
 
@@ -205,8 +160,6 @@ plt.axvline(mean_pos, linestyle="--", linewidth=2, label=f"Mean ({mean_ipk:.2f})
 plt.axvline(median_pos, linestyle="-.", linewidth=2, label=f"Median ({median_class})")
 
 plt.axvline(modus_pos, linestyle=":", linewidth=2, label=f"Modus ({modus_class})")
-
-# KDE
 
 expanded = np.repeat(x_mid, f)
 
@@ -241,12 +194,6 @@ plt.grid(axis="y", alpha=0.3)
 plt.tight_layout()
 
 plt.show()
-
-# ==============================
-
-# 8. OUTPUT ANGKA
-
-# ==============================
 
 print("\n=== STATISTIK IPK (DATA BERKELOMPOK) ===")
 
